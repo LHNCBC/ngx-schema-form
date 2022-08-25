@@ -69,15 +69,21 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
 
   @Input() bindings: { [path: string]: Binding } = {};
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() onChange = new EventEmitter<{ value: any }>();
 
   @Output() modelChange = new EventEmitter<any>();
 
   @Output() isValid = new EventEmitter<boolean>();
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() onErrorChange = new EventEmitter<{ value: any[] }>();
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() onErrorsChange = new EventEmitter<{value: any}>();
+
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() modelReset = new EventEmitter<{value: any}>();
 
   rootProperty: FormProperty = null;
 
@@ -156,6 +162,7 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
     if (this.schema && (changes.model || changes.schema )) {
       this.rootProperty.reset(this.model, false);
       this.cdr.detectChanges();
+      this.modelReset.next({value: this.rootProperty.value});
     }
 
   }

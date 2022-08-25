@@ -18,14 +18,24 @@ export class ObjectProperty extends PropertyGroup {
               schema: ISchema,
               parent: PropertyGroup,
               path: string,
-              logger: LogService) {
+              logger: LogService,
+              value?: any) {
     super(schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, schema, parent, path, logger);
-    this.createProperties();
+    if (path.match(/\/(extension|modifiedExtension)\/\*$/)) {
+      this.createPropertiesExtension(value);
+    } else {
+      this.createProperties();
+    }
   }
 
   setValue(value: any, onlySelf: boolean) {
     for (const propertyId in value) {
       if (value.hasOwnProperty(propertyId)) {
+        if (!this.properties[propertyId]) {
+          const propertySchema = this.schema.properties[propertyId];
+          this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId, value[propertyId]);
+          this.propertiesId.push(propertyId);
+        }
         this.properties[propertyId].setValue(value[propertyId], true);
       }
     }
@@ -40,7 +50,7 @@ export class ObjectProperty extends PropertyGroup {
 
   resetProperties(value: any) {
     for (const propertyId in this.schema.properties) {
-      if (this.schema.properties.hasOwnProperty(propertyId)) {
+      if (this.properties[propertyId] && this.schema.properties.hasOwnProperty(propertyId)) {
         this.properties[propertyId].reset(value[propertyId], true);
       }
     }
@@ -54,6 +64,22 @@ export class ObjectProperty extends PropertyGroup {
         const propertySchema = this.schema.properties[propertyId];
         this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId);
         this.propertiesId.push(propertyId);
+      }
+    }
+  }
+
+  createPropertiesExtension(value: any) {
+    this.properties = {};
+    this.propertiesId = [];
+    const propList: string[] = value ? Object.keys(value) : this.schema.properties ? Object.keys(this.schema.properties) : [];
+    for (const propertyId of propList) {
+      if (this.schema.properties.hasOwnProperty(propertyId)) {
+        const propertySchema = this.schema.properties[propertyId];
+        if (propertySchema) {
+          this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
+            value ? value[propertyId] : null);
+            this.propertiesId.push(propertyId);
+        }
       }
     }
   }
@@ -98,8 +124,9 @@ PROPERTY_TYPE_MAPPING.object = (
     parent: PropertyGroup,
     path: string,
     formPropertyFactory: FormPropertyFactory,
-    logger: LogService
+    logger: LogService,
+    value?: any
 ) => {
     return new ObjectProperty(
-        formPropertyFactory, schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, schema, parent, path, logger);
+        formPropertyFactory, schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, schema, parent, path, logger, value);
 };
