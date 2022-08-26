@@ -21,26 +21,30 @@ export class ArrayProperty extends PropertyGroup {
   }
 
   addItem(value: any = null): FormProperty {
-    let newProperty = this.addProperty();
-    newProperty.reset(value, false);
-    return newProperty;
+    return this.addProperty(value);
   }
 
-  private addProperty() {
-    let itemSchema = this.schema.items
+  /**
+   * For some FHIR schemas, such as Extension, we need information from the url to limit the associated value[x] fields.
+   * @param value
+   * @private
+   */
+  private addProperty(value) {
+    let itemSchema = this.schema.items;
     if (Array.isArray(this.schema.items)) {
-      const itemSchemas = this.schema.items as object[]
+      const itemSchemas = this.schema.items as object[];
       if (itemSchemas.length > (<FormProperty[]>this.properties).length) {
-        itemSchema = itemSchema[(<FormProperty[]>this.properties).length]
+        itemSchema = itemSchema[(<FormProperty[]>this.properties).length];
       } else if (this.schema.additionalItems) {
-        itemSchema = this.schema.additionalItems
+        itemSchema = this.schema.additionalItems;
       } else {
-        // souldn't add new items since schema is undefined for the item at its position
-        return null
+        // shouldn't add new items since schema is undefined for the item at its position
+        return null;
       }
     }
-    let newProperty = this.formPropertyFactory.createProperty(itemSchema, this);
+    const newProperty = this.formPropertyFactory.createProperty(itemSchema, this, null, value);
     (<FormProperty[]>this.properties).push(newProperty);
+    newProperty.reset(value, false);
     return newProperty;
   }
 
@@ -86,9 +90,9 @@ export class ArrayProperty extends PropertyGroup {
 
 
   private resetProperties(value: any) {
-    for (let idx in value) {
+    for (const idx in value) {
       if (value.hasOwnProperty(idx)) {
-        let property = this.addProperty();
+        const property = this.addProperty(value[idx]);
         property.reset(value[idx], true);
       }
     }

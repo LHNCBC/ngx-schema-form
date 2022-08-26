@@ -1,3 +1,7 @@
+# 2.6.6-forked (2022-08-26)
+
+- Customize creating of form property for FHIR Extension schema.
+
 # 2.6.6 (2021-08-12)
 
 - Fix HTML IDs in elements nested in arrays

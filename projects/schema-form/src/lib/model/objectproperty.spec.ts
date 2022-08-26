@@ -13,13 +13,14 @@ import { DefaultLogService, LogLevel } from '../log.service';
 
 describe('ObjectProperty', () => {
 
-  let A_VALIDATOR_REGISTRY = new ValidatorRegistry();
-  let A_SCHEMA_VALIDATOR_FACTORY = new ZSchemaValidatorFactory();
-  let A_PROPERTY_BINDING_REGISTRY=new PropertyBindingRegistry();
-  let A_EXPRESSION_COMPILER_FACTORY = new JEXLExpressionCompilerFactory();
-  let A_LOGGER = new DefaultLogService(LogLevel.off);
-  let A_FORM_PROPERTY_FACTORY = new FormPropertyFactory(A_SCHEMA_VALIDATOR_FACTORY, A_VALIDATOR_REGISTRY, A_PROPERTY_BINDING_REGISTRY, A_EXPRESSION_COMPILER_FACTORY, A_LOGGER);
-  
+  const A_VALIDATOR_REGISTRY = new ValidatorRegistry();
+  const A_SCHEMA_VALIDATOR_FACTORY = new ZSchemaValidatorFactory();
+  const A_PROPERTY_BINDING_REGISTRY = new PropertyBindingRegistry();
+  const A_EXPRESSION_COMPILER_FACTORY = new JEXLExpressionCompilerFactory();
+  const A_LOGGER = new DefaultLogService(LogLevel.off);
+  const A_FORM_PROPERTY_FACTORY = new FormPropertyFactory(A_SCHEMA_VALIDATOR_FACTORY, A_VALIDATOR_REGISTRY, A_PROPERTY_BINDING_REGISTRY,
+    A_EXPRESSION_COMPILER_FACTORY, A_LOGGER);
+
 
   const THE_OBJECT_SCHEMA: ISchema = {
     type: 'object',
@@ -48,9 +49,9 @@ describe('ObjectProperty', () => {
 
   it('should create same properties as in the schema', () => {
 
-    for (let propertyId in THE_OBJECT_SCHEMA.properties) {
+    for (const propertyId in THE_OBJECT_SCHEMA.properties) {
       if (THE_OBJECT_SCHEMA.properties.hasOwnProperty(propertyId)) {
-        let property = objProperty.getProperty(propertyId);
+        const property = objProperty.getProperty(propertyId);
         expect(property).toBeDefined();
       }
     }
