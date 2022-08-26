@@ -24,11 +24,6 @@ export class ArrayProperty extends PropertyGroup {
     return this.addProperty(value);
   }
 
-  /**
-   * For some FHIR schemas, such as Extension, we need information from the url to limit the associated value[x] fields.
-   * @param value
-   * @private
-   */
   private addProperty(value) {
     let itemSchema = this.schema.items;
     if (Array.isArray(this.schema.items)) {

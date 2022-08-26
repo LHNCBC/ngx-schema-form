@@ -68,6 +68,13 @@ export class ObjectProperty extends PropertyGroup {
     }
   }
 
+  /**
+   * For some FHIR schemas, such as Extension, we need information from the url to limit creating associated value[x] fields.
+   * Enumerating all possible extension urls is kind of impossible task. The next best thing is to look for them in the value parameter.
+   * If value is null, create all possible value[x] as a fallback.
+   *
+   * @param value - Value of extension
+   */
   createPropertiesExtension(value: any) {
     this.properties = {};
     this.propertiesId = [];
