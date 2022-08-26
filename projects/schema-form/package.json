@@ -3,7 +3,7 @@
   "version": "2.6.6-forked",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akanduru/ngx-schema-form"
+    "url": "git+https://github.com/lhncbc/ngx-schema-form"
   },
   "keywords": [
     "angular",
@@ -13,7 +13,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/akanduru/ngx-schema-form/issues"
+    "url": "https://github.com/lhncbc/ngx-schema-form/issues"
   },
   "contributors": [
     "Frank Bessou <fbessou@free.fr>",
@@ -21,7 +21,8 @@
     "Simon Bats <contact@simonbats.com>",
     "Gabor Pankotay <gabor.pankotay@swicon.hu>",
     "Juan Manuel Verges",
-    "Daniele Pecora <daniele.pecora@googlemail.com>"
+    "Daniele Pecora <daniele.pecora@googlemail.com>",
+    "Ajay Kanduru <akanduru@mail.nih.gov>"
   ],
   "dependencies": {
     "tslib": "^2.0.0"
