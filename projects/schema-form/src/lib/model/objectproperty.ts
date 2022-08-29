@@ -22,6 +22,7 @@ export class ObjectProperty extends PropertyGroup {
               value?: any) {
     super(schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, schema, parent, path, logger);
     if (path.match(/\/(extension|modifiedExtension)\/\*$/)) {
+      // Special handling for extension schema.
       this.createPropertiesExtension(value);
     } else {
       this.createProperties();
