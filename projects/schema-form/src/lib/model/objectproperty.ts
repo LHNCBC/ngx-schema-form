@@ -21,7 +21,7 @@ export class ObjectProperty extends PropertyGroup {
               logger: LogService,
               value?: any) {
     super(schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, schema, parent, path, logger);
-    if (path.match(/\/(extension|modifiedExtension)\/\*$/)) {
+    if (path.match(/\/(extension|modifierExtension)\/\*$/)) {
       // Special handling for extension schema.
       this.createPropertiesExtension(value);
     } else {
