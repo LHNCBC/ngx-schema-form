@@ -82,7 +82,6 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onErrorsChange = new EventEmitter<{value: any}>();
 
-  // tslint:disable-next-line:no-output-on-prefix
   @Output() modelReset = new EventEmitter<{value: any}>();
 
   rootProperty: FormProperty = null;

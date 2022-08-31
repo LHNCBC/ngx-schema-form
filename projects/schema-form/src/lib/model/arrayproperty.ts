@@ -26,8 +26,8 @@ export class ArrayProperty extends PropertyGroup {
 
   private addProperty(value) {
     let itemSchema = this.schema.items;
-    if (Array.isArray(this.schema.items)) {
-      const itemSchemas = this.schema.items as object[];
+    if (Array.isArray(itemSchema)) {
+      const itemSchemas = itemSchema as object[];
       if (itemSchemas.length > (<FormProperty[]>this.properties).length) {
         itemSchema = itemSchema[(<FormProperty[]>this.properties).length];
       } else if (this.schema.additionalItems) {

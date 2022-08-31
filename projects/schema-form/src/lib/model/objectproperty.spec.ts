@@ -32,6 +32,7 @@ describe('ObjectProperty', () => {
   };
 
   let objProperty: ObjectProperty;
+  let value: any = null;
 
 
   beforeEach(() => {
@@ -43,7 +44,8 @@ describe('ObjectProperty', () => {
       THE_OBJECT_SCHEMA,
       null,
       '',
-      A_LOGGER
+      A_LOGGER,
+      value
     );
   });
 
@@ -55,6 +57,54 @@ describe('ObjectProperty', () => {
         expect(property).toBeDefined();
       }
     }
+  });
+
+  it('should create same properties as in schema with arbitrary parent path', () => {
+    value = {FOO: 1};
+    objProperty = new ObjectProperty(
+      A_FORM_PROPERTY_FACTORY,
+      A_SCHEMA_VALIDATOR_FACTORY,
+      A_VALIDATOR_REGISTRY,
+      A_EXPRESSION_COMPILER_FACTORY,
+      THE_OBJECT_SCHEMA,
+      null,
+      '/abc/def/*',
+      A_LOGGER,
+      value
+    );
+    for (const propertyId in THE_OBJECT_SCHEMA.properties) {
+      if (THE_OBJECT_SCHEMA.properties.hasOwnProperty(propertyId)) {
+        const property = objProperty.getProperty(propertyId);
+        expect(property).toBeDefined();
+      }
+    }
+  });
+
+  ['extension', 'modifierExtension'].forEach((field) => {
+    it('Special handling for ' + field + ': should create same properties as in value', () => {
+      value = {FOO: 1};
+      objProperty = new ObjectProperty(
+        A_FORM_PROPERTY_FACTORY,
+        A_SCHEMA_VALIDATOR_FACTORY,
+        A_VALIDATOR_REGISTRY,
+        A_EXPRESSION_COMPILER_FACTORY,
+        THE_OBJECT_SCHEMA,
+        null,
+        '/abc/' + field + '/*',
+        A_LOGGER,
+        value
+      );
+      for (const propertyId in THE_OBJECT_SCHEMA.properties) {
+        if (THE_OBJECT_SCHEMA.properties.hasOwnProperty(propertyId)) {
+          const property = objProperty.getProperty(propertyId);
+          if (value.hasOwnProperty(propertyId)) {
+            expect(property).toBeDefined();
+          } else {
+            expect(property).toBeUndefined();
+          }
+        }
+      }
+    });
   });
 
 });
