@@ -16,7 +16,7 @@ export class FormPropertyFactory {
               private logger: LogService) {
   }
 
-  createProperty(schema: ISchema, parent: PropertyGroup = null, propertyId?: string): FormProperty {
+  createProperty(schema: ISchema, parent: PropertyGroup = null, propertyId: string = null, value?: any): FormProperty {
     let newProperty = null;
     let path = '';
     let _canonicalPath = '';
@@ -33,7 +33,7 @@ export class FormPropertyFactory {
         path += '*';
         _canonicalPath += '*';
       } else {
-        throw 'Instanciation of a FormProperty with an unknown parent type: ' + parent.type;
+        throw new Error('Instanciation of a FormProperty with an unknown parent type: ' + parent.type);
       }
       _canonicalPath = (parent._canonicalPath || parent.path) + _canonicalPath;
     } else {
@@ -43,7 +43,7 @@ export class FormPropertyFactory {
 
     if (schema.$ref) {
       const refSchema = this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref);
-      newProperty = this.createProperty(refSchema, parent, path);
+      newProperty = this.createProperty(refSchema, parent, path, value);
     } else {
       const type: FieldType = this.isUnionType(schema.type)
         && this.isValidNullableUnionType(schema.type as TNullableFieldType)
@@ -54,7 +54,8 @@ export class FormPropertyFactory {
       if (PROPERTY_TYPE_MAPPING[type]) {
         if (type === 'object' || type === 'array') {
           newProperty = PROPERTY_TYPE_MAPPING[type](
-          this.schemaValidatorFactory, this.validatorRegistry, this.expressionCompilerFactory, schema, parent, path, this, this.logger);
+          this.schemaValidatorFactory, this.validatorRegistry, this.expressionCompilerFactory, schema, parent, path, this, this.logger,
+            value);
         } else {
           newProperty = PROPERTY_TYPE_MAPPING[type](
           this.schemaValidatorFactory, this.validatorRegistry, this.expressionCompilerFactory, schema, parent, path, this.logger);
