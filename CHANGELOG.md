@@ -1,3 +1,33 @@
+# 2.7.2-forked (2022-10-24)
+
+- Upgrade to angular 13 (Parent: 2.7.2)
+
+# 2.7.2 (2022-07-15)
+
+- Use DisableControlDirective for widgets to remove warnings for reactive forms (Kevin Broichhausen)
+- Changed cp command in build:lib (Kevin Broichhausen)
+- Fix zero value checking (Kevin Broichhausen)
+
+# 2.7.1 (2022-06-02)
+
+- Do not display labels if no title (Anton)
+
+# 2.7.0 (2022-01-01)
+
+- Upgrade to Angular 13 (ebrehault)
+
+# 2.6.9 (2021-12-17)
+
+- Cherry pick #420 fixed visibileIf empty object check
+
+# 2.6.8 (2021-11-26)
+
+- Fix validation of ANY to validate more types of values (bennmapes)
+
+# 2.6.7 (2021-11-03)
+
+- Remove constraint of using nullable unions (iperevozchikov)
+
 # 2.6.6-forked (2022-08-26)
 
 - Customize creating of form property for FHIR Extension schema.

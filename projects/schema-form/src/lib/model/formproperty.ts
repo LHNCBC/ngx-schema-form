@@ -7,6 +7,8 @@ import {PropertyBindingRegistry} from '../property-binding-registry';
 import { ExpressionCompilerFactory, ExpressionCompilerVisibilityIf } from '../expression-compiler-factory';
 import { ISchema, TSchemaPropertyType } from './ISchema';
 import { LogService } from '../log.service';
+import { FieldType } from '../template-schema/field/field';
+import { isEmptyObject } from './utils';
 
 export abstract class FormProperty {
   public schemaValidator: Function;
@@ -97,6 +99,10 @@ export abstract class FormProperty {
 
   public get type(): TSchemaPropertyType {
     return this.schema.type;
+  }
+
+  public get isNullableType(): boolean {
+    return Array.isArray(this.schema.type) && this.schema.type.some(type => type === FieldType.Null);
   }
 
   public get parent(): PropertyGroup {
@@ -243,9 +249,19 @@ export abstract class FormProperty {
         if (typeof expString === 'boolean') {
           valid = !expString ? !value : value
         } else if (typeof expString === 'number') {
-          valid = !!value ? `${expString}` === `${value}` : false;
+          valid = (!!value || value == 0) ? `${expString}` === `${value}` : false;
         } else if (-1 !== `${expString}`.indexOf('$ANY$')) {
-          valid = value && value.length > 0;
+          if(Array.isArray(value)) {
+            valid = value.length > 0;
+          } else if(typeof value === "number") {
+            valid = true;
+          } else if(typeof value === "boolean") {
+            valid = true;
+          } else if(typeof value === "string") {
+            valid = value !== '';
+          } else if(typeof value === "object") {
+            valid = !isEmptyObject(value);
+          }
         } else if (0 === `${expString}`.indexOf('$EXP$')) {
           const _expresssion = (expString as string).substring('$EXP$'.length);
           valid = true === this.expressionCompilerVisibiltyIf.evaluate(_expresssion, {
