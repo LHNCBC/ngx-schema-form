@@ -1,6 +1,30 @@
+# 2.8.4-forked (2022-10-25)
+
+- Upgrade to angular 14 (Parent: 2.8.4)
+
 # 2.7.2-forked (2022-10-24)
 
 - Upgrade to angular 13 (Parent: 2.7.2)
+
+# 2.8.4 (2022-09-09)
+
+- Improved performance of visibility binding for nested objects (Kevin Broichhausen)
+
+# 2.8.3 (2022-08-24)
+
+- Two-way data binding fix (Kevin Broichhausen)
+
+# 2.8.2 (2022-07-26)
+
+- Added chainable oneOf and allOf in visibleIf (Kevin Broichhausen)
+
+# 2.8.1 (2022-07-20)
+
+- Fix dependencies version
+
+# 2.8.0 (2022-07-15)
+
+- Upgrade to Angular 14 (ebrehault)
 
 # 2.7.2 (2022-07-15)
 
