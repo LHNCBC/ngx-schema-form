@@ -5,7 +5,7 @@ import { ControlWidget } from '../../widget';
 @Component({
 	selector: 'sf-select-widget',
 	template: `<div class="widget form-group">
-	<label [attr.for]="id" class="horizontal control-label">
+	<label *ngIf="schema.title" [attr.for]="id" class="horizontal control-label">
 		{{ schema.title }}
 	</label>
 
@@ -13,7 +13,7 @@ import { ControlWidget } from '../../widget';
 		{{schema.description}}
 	</span>
 
-	<select *ngIf="schema.type!='array'" [formControl]="control" [attr.name]="name" [attr.id]="id" [disabled]="schema.readOnly" [disableControl]="schema.readOnly" class="form-control">
+	<select *ngIf="schema.type!='array'" [formControl]="control" [attr.name]="name" [attr.id]="id" [disableControl]="schema.readOnly" class="form-control">
 		<ng-container *ngIf="schema.oneOf; else use_enum">
 			<option *ngFor="let option of schema.oneOf" [ngValue]="option.enum[0]" >{{option.description}}</option>
 		</ng-container>
@@ -22,7 +22,7 @@ import { ControlWidget } from '../../widget';
 		</ng-template>
 	</select>
 
-	<select *ngIf="schema.type==='array'" multiple [formControl]="control" [attr.name]="name" [attr.id]="id" [disabled]="schema.readOnly" [disableControl]="schema.readOnly" class="form-control">
+	<select *ngIf="schema.type==='array'" multiple [formControl]="control" [attr.name]="name" [attr.id]="id" [disableControl]="schema.readOnly" class="form-control">
     <option *ngFor="let option of schema.items.oneOf" [ngValue]="option.enum[0]" [disabled]="option.readOnly">{{option.description}}</option>
 	</select>
 
