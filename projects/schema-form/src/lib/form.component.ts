@@ -160,6 +160,7 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
 
     if (this.schema && (changes.model || changes.schema )) {
       this.rootProperty.reset(this.model, false);
+      this.rootProperty._bindVisibility();
       this.cdr.detectChanges();
       this.modelReset.next({value: this.rootProperty.value});
     }
@@ -205,6 +206,7 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
 
   private setModel(value: any) {
     if (this.model) {
+      for (const key of Object.keys(this.model)) delete this.model[key];
       Object.assign(this.model, value);
     } else {
       this.model = value;

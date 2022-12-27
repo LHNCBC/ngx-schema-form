@@ -1,3 +1,14 @@
+# 2.9.0-forked (2022-12-27)
+- Upgrade to angular 15 (Parent: 2.9.0)
+
+# 2.9.0 (2022-12-23)
+
+- Remove invisible elements from model at root level (Kevin Broichhausen)
+- Fix bug with wildcards (Kevin Broichhausen)
+- Bind visibility after creation to prevent multiple calls (Kevin Broichhausen)
+- Fix for multi select visibility conditional (iamtomcat)
+- Upgrade to Angular 15 (ebrehault)
+
 # 2.8.4-forked (2022-10-25)
 
 - Upgrade to angular 14 (Parent: 2.8.4)
