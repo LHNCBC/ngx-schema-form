@@ -1,5 +1,6 @@
 import {
   Component,
+  forwardRef,
   Input,
   AfterContentInit,
   ContentChildren,
@@ -29,7 +30,7 @@ import {ISchema} from '../../model/ISchema';
 export class FieldComponent extends FieldParent implements
 Field, OnChanges, AfterContentInit {
 
-  @ContentChildren(FieldComponent)
+  @ContentChildren(forwardRef(() => FieldComponent))
   childFields: QueryList<FieldComponent>;
 
   @ContentChildren(ItemComponent)

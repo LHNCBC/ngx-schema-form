@@ -20,7 +20,7 @@ class BaseTest {
     }
   };
 
-  modelA: any = {};
+  modelA: any = {fieldA: 'initial value'};
   actions: any = {};
   validators: any = {};
 }
@@ -80,7 +80,7 @@ describe('FormComponent', () => {
       })
     );
 
-    describe((!index ? 'Without' : 'With') + ' NgModel', () => {
+    describe((testComponent === TestAComponent ? 'Without' : 'With') + ' NgModel', () => {
       beforeEach(
         async(() => {
           TestBed.compileComponents();
@@ -104,6 +104,7 @@ describe('FormComponent', () => {
 
         const inputs = forms[0].queryAll(By.css('input'));
         expect(inputs.length).toBe(1);
+        expect(inputs[0].nativeElement.value).toBe('initial value');
       });
 
       it('should generate new form on schema changes', () => {
@@ -143,7 +144,7 @@ describe('FormComponent', () => {
       it('should support 2 way data binding', () => {
         const input = fixture.debugElement.query(By.css('input')).nativeElement;
 
-        expect(input.value).toBeFalsy();
+        expect(input.value).toBe('initial value');
 
         component.modelA = {
           fieldA: 'A'
