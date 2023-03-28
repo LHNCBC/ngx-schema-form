@@ -67,15 +67,11 @@ export class FormPropertyFactory {
     newProperty._canonicalPath = _canonicalPath;
 
     if (newProperty instanceof PropertyGroup) {
-      this.initializeRoot(newProperty);
+      newProperty.reset(null, true);
+      newProperty._bindVisibility();
     }
 
     return newProperty;
-  }
-
-  private initializeRoot(rootProperty: PropertyGroup) {
-    rootProperty.reset(null, true);
-    rootProperty._bindVisibility();
   }
 
   private isUnionType(unionType: TSchemaPropertyType): boolean {

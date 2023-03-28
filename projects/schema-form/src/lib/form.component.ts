@@ -136,6 +136,7 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
       this.schema.type = 'object';
     }
 
+    let valueChanged = false;
     if (this.schema && changes.schema) {
       if (!changes.schema.firstChange) {
         this.terminator.destroy();
@@ -144,7 +145,7 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
       SchemaPreprocessor.preprocess(this.schema);
       this.rootProperty = this.formPropertyFactory.createProperty(this.schema);
       if (this.model) {
-        // this.rootProperty.reset(this.model, false);
+        this.rootProperty.reset(this.model, false);
       }
 
       this.rootProperty.valueChanges.subscribe(
@@ -155,15 +156,18 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
         this.onErrorChange.emit({value: value});
         this.isValid.emit(!(value && value.length));
       });
+      valueChanged = true;
 
+    } else if (this.schema && (changes.model)) {
+      this.rootProperty.reset(this.model, false);
+      valueChanged = true;
     }
 
-    if (this.schema && (changes.model || changes.schema )) {
-      this.rootProperty.reset(this.model, false);
+    if (valueChanged) {
+      this.rootProperty._bindVisibility();
       this.cdr.detectChanges();
       this.modelReset.next({value: this.rootProperty.value});
     }
-
   }
 
   private setValidators() {
@@ -205,6 +209,7 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
 
   private setModel(value: any) {
     if (this.model) {
+      for (const key of Object.keys(this.model)) delete this.model[key];
       Object.assign(this.model, value);
     } else {
       this.model = value;
