@@ -21,25 +21,27 @@ export class ArrayProperty extends PropertyGroup {
   }
 
   addItem(value: any = null): FormProperty {
-    return this.addProperty(value);
+    let newProperty = this.addProperty();
+    newProperty.reset(value, false);
+    newProperty._bindVisibility();
+    return newProperty;
   }
 
-  private addProperty(value) {
-    let itemSchema = this.schema.items;
-    if (Array.isArray(itemSchema)) {
-      const itemSchemas = itemSchema as object[];
+  private addProperty() {
+    let itemSchema = this.schema.items
+    if (Array.isArray(this.schema.items)) {
+      const itemSchemas = this.schema.items as object[]
       if (itemSchemas.length > (<FormProperty[]>this.properties).length) {
-        itemSchema = itemSchema[(<FormProperty[]>this.properties).length];
+        itemSchema = itemSchema[(<FormProperty[]>this.properties).length]
       } else if (this.schema.additionalItems) {
-        itemSchema = this.schema.additionalItems;
+        itemSchema = this.schema.additionalItems
       } else {
-        // shouldn't add new items since schema is undefined for the item at its position
-        return null;
+        // souldn't add new items since schema is undefined for the item at its position
+        return null
       }
     }
-    const newProperty = this.formPropertyFactory.createProperty(itemSchema, this, null, value);
+    let newProperty = this.formPropertyFactory.createProperty(itemSchema, this);
     (<FormProperty[]>this.properties).push(newProperty);
-    newProperty.reset(value, false);
     return newProperty;
   }
 
@@ -85,9 +87,9 @@ export class ArrayProperty extends PropertyGroup {
 
 
   private resetProperties(value: any) {
-    for (const idx in value) {
+    for (let idx in value) {
       if (value.hasOwnProperty(idx)) {
-        const property = this.addProperty(value[idx]);
+        let property = this.addProperty();
         property.reset(value[idx], true);
       }
     }

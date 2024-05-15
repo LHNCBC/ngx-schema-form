@@ -1,3 +1,22 @@
+# 2.11.0-forked (2024-05-14)
+- Upgrade to angular 17 (Parent: 2.11.0)
+
+# 2.11.0 (2023-11-08)
+
+- Upgrade to Angular 17 (ebrehault)
+
+# 2.10.1 (2023-08-26)
+
+- Fixing issue when using visibleIf in array items (Saeleas)
+
+# 2.10.0 (2023-05-11)
+
+- Upgrade to Angular 16 (ebrehault)
+
+# 2.9.1 (2023-05-02)
+
+- Fix dependencies (Shailee Mehta)
+
 # 2.9.0-forked (2022-12-27)
 - Upgrade to angular 15 (Parent: 2.9.0)
 
