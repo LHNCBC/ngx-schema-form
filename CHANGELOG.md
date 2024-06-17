@@ -1,3 +1,7 @@
+# 2.11.0-forked1 (2024-06-15)
+- Restore ArrayProperty from 2.9.0-forked to address performance degradation
+- in 2.11.0-forked.
+
 # 2.11.0-forked (2024-05-14)
 - Upgrade to angular 17 (Parent: 2.11.0)
 
