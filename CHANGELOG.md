@@ -1,3 +1,7 @@
+# 2.11.0-forked2 (2024-07-02)
+- Using JSON Schema's additionalProperties flag, allow fields in the model not
+  specified in schema definition.
+
 # 2.11.0-forked1 (2024-06-15)
 - Restore ArrayProperty from 2.9.0-forked to address performance degradation 
   in 2.11.0-forked.

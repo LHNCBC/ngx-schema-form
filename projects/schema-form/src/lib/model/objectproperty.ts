@@ -50,9 +50,26 @@ export class ObjectProperty extends PropertyGroup {
   }
 
   resetProperties(value: any) {
-    for (const propertyId in this.schema.properties) {
+    const schemaPropertyIds = this.schema?.properties ? Object.keys(this.schema.properties) : [];
+
+    for (const propertyId of schemaPropertyIds) {
       if (this.properties[propertyId] && this.schema.properties.hasOwnProperty(propertyId)) {
         this.properties[propertyId].reset(value[propertyId], true);
+      }
+    }
+    if (this.schema?.additionalProperties) {
+      // Handle additional properties.
+      const additionalPropertyIds = Object.keys(value).filter(el => {
+        return !schemaPropertyIds.includes(el);
+      });
+      for (const propertyId of additionalPropertyIds) {
+        let prop = this.properties[propertyId];
+        if (!prop) {
+          prop = this.formPropertyFactory.createProperty({}, this, propertyId, value[propertyId], true);
+          this.properties[propertyId] = prop;
+        } else {
+          prop.setValue(value[propertyId]);
+        }
       }
     }
   }

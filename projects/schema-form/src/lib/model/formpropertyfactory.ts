@@ -7,6 +7,7 @@ import { PROPERTY_TYPE_MAPPING } from './typemapping';
 import { ISchema, TSchemaPropertyType } from './ISchema';
 import { LogService } from '../log.service';
 import { TNullableFieldType, FieldType } from '../template-schema/field/field';
+import { AdditionalProperty } from './additionalproperty';
 
 export class FormPropertyFactory {
 
@@ -16,7 +17,17 @@ export class FormPropertyFactory {
               private logger: LogService) {
   }
 
-  createProperty(schema: ISchema, parent: PropertyGroup = null, propertyId: string = null, value?: any): FormProperty {
+  /**
+   * Create form property, based on schema, path, and value.
+   * @param schema - Schema of the field to create the form property.
+   * @param parent - FormProperty instance of the parent.
+   * @param propertyId - Field name.
+   * @param value - Value of the field.
+   * @param additionalProperty - A flag to indicate additionalProperty. Defaults
+   *   to false.
+   */
+  createProperty(schema: ISchema, parent: PropertyGroup = null, propertyId: string = null, value?: any,
+                 additionalProperty = false): FormProperty {
     let newProperty = null;
     let path = '';
     let _canonicalPath = '';
@@ -41,7 +52,10 @@ export class FormPropertyFactory {
       _canonicalPath = '/';
     }
 
-    if (schema.$ref) {
+    if (additionalProperty) {
+      newProperty = new AdditionalProperty(this.schemaValidatorFactory, this.validatorRegistry, this.expressionCompilerFactory,
+        parent, path, this.logger, value);
+    } else if (schema.$ref) {
       const refSchema = this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref);
       newProperty = this.createProperty(refSchema, parent, path, value);
     } else {
