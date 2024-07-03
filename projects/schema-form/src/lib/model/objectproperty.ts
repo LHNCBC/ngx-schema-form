@@ -34,7 +34,12 @@ export class ObjectProperty extends PropertyGroup {
       if (value.hasOwnProperty(propertyId)) {
         if (!this.properties[propertyId]) {
           const propertySchema = this.schema.properties[propertyId];
-          this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId, value[propertyId]);
+          if (propertySchema) {
+            this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId, value[propertyId]);
+          } else if (this.schema.additionalProperties) {
+            this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
+              value[propertyId], true);
+          }
           this.propertiesId.push(propertyId);
         }
         this.properties[propertyId].setValue(value[propertyId], true);
@@ -67,9 +72,8 @@ export class ObjectProperty extends PropertyGroup {
         if (!prop) {
           prop = this.formPropertyFactory.createProperty({}, this, propertyId, value[propertyId], true);
           this.properties[propertyId] = prop;
-        } else {
-          prop.setValue(value[propertyId]);
         }
+        prop.reset(value[propertyId]);
       }
     }
   }
@@ -98,13 +102,16 @@ export class ObjectProperty extends PropertyGroup {
     this.propertiesId = [];
     const propList: string[] = value ? Object.keys(value) : this.schema.properties ? Object.keys(this.schema.properties) : [];
     for (const propertyId of propList) {
-      if (this.schema.properties.hasOwnProperty(propertyId)) {
+      if (this.schema.properties.hasOwnProperty(propertyId) || this.schema.additionalProperties) {
         const propertySchema = this.schema.properties[propertyId];
         if (propertySchema) {
           this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
             value ? value[propertyId] : null);
-            this.propertiesId.push(propertyId);
+        } else {
+          this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
+            value ? value[propertyId] : null, true);
         }
+        this.propertiesId.push(propertyId);
       }
     }
   }
