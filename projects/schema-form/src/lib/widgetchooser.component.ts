@@ -54,6 +54,6 @@ export class WidgetChooserComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subs.unsubscribe();
+    this.subs?.unsubscribe();
   }
 }

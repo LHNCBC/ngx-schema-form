@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
 import {FormComponent} from './form.component';
@@ -71,7 +71,7 @@ describe('FormComponent', () => {
     let component: BaseTest;
 
     beforeEach(
-      async(() => {
+      waitForAsync(() => {
         TestBed.configureTestingModule({
           imports: [FormsModule, SchemaFormModule.forRoot()],
           declarations: [testComponent],
@@ -82,7 +82,7 @@ describe('FormComponent', () => {
 
     describe((testComponent === TestAComponent ? 'Without' : 'With') + ' NgModel', () => {
       beforeEach(
-        async(() => {
+        waitForAsync(() => {
           TestBed.compileComponents();
           fixture = TestBed.createComponent(testComponent);
           fixture.detectChanges();
@@ -166,12 +166,12 @@ describe('FormComponent', () => {
       it('should emit onChange events on field value change', () => {
         const predicate = By.directive(FormComponent);
         const form = fixture.debugElement.query(predicate).componentInstance;
-        spyOn(form.onChange, 'emit');
 
         const input = fixture.debugElement.query(By.css('input')).nativeElement;
         fixture.detectChanges();
 
         fixture.whenStable().then(() => {
+          spyOn(form.onChange, 'emit');
           input.value = 'CHANGED';
           input.dispatchEvent(new Event('input'));
 
