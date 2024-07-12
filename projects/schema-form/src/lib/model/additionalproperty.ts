@@ -47,7 +47,6 @@ export class AdditionalProperty extends AtomicProperty {
               value?: any) {
     const type = AdditionalProperty.getType(value);
     super(schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, {type}, parent, path, logger);
-    // this.setValue(value);
   }
 
   fallbackValue() {
