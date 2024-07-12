@@ -34,7 +34,12 @@ export class ObjectProperty extends PropertyGroup {
       if (value.hasOwnProperty(propertyId)) {
         if (!this.properties[propertyId]) {
           const propertySchema = this.schema.properties[propertyId];
-          this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId, value[propertyId]);
+          if (propertySchema) {
+            this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId, value[propertyId]);
+          } else if (this.schema.additionalProperties) {
+            this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
+              value[propertyId], true);
+          }
           this.propertiesId.push(propertyId);
         }
         this.properties[propertyId].setValue(value[propertyId], true);
@@ -50,9 +55,25 @@ export class ObjectProperty extends PropertyGroup {
   }
 
   resetProperties(value: any) {
-    for (const propertyId in this.schema.properties) {
+    const schemaPropertyIds = this.schema?.properties ? Object.keys(this.schema.properties) : [];
+
+    for (const propertyId of schemaPropertyIds) {
       if (this.properties[propertyId] && this.schema.properties.hasOwnProperty(propertyId)) {
         this.properties[propertyId].reset(value[propertyId], true);
+      }
+    }
+    if (this.schema?.additionalProperties) {
+      // Handle additional properties.
+      const additionalPropertyIds = Object.keys(value).filter(el => {
+        return !schemaPropertyIds.includes(el);
+      });
+      for (const propertyId of additionalPropertyIds) {
+        let prop = this.properties[propertyId];
+        if (!prop) {
+          prop = this.formPropertyFactory.createProperty({}, this, propertyId, value[propertyId], true);
+          this.properties[propertyId] = prop;
+        }
+        prop.reset(value[propertyId]);
       }
     }
   }
@@ -81,13 +102,16 @@ export class ObjectProperty extends PropertyGroup {
     this.propertiesId = [];
     const propList: string[] = value ? Object.keys(value) : this.schema.properties ? Object.keys(this.schema.properties) : [];
     for (const propertyId of propList) {
-      if (this.schema.properties.hasOwnProperty(propertyId)) {
+      if (this.schema.properties.hasOwnProperty(propertyId) || this.schema.additionalProperties) {
         const propertySchema = this.schema.properties[propertyId];
         if (propertySchema) {
           this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
             value ? value[propertyId] : null);
-            this.propertiesId.push(propertyId);
+        } else {
+          this.properties[propertyId] = this.formPropertyFactory.createProperty(propertySchema, this, propertyId,
+            value ? value[propertyId] : null, true);
         }
+        this.propertiesId.push(propertyId);
       }
     }
   }
