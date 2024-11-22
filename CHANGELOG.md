@@ -1,3 +1,6 @@
+# 2.11.0-forked3 (2024-11-14)
+- Fix inserting new items in array properties with custom widgets.
+
 # 2.11.0-forked2 (2024-07-02)
 - Using JSON Schema's additionalProperties flag, allow fields in the model not
   specified in schema definition.
