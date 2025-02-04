@@ -1,6 +1,6 @@
 {
   "name": "@lhncbc/ngx-schema-form",
-  "version": "2.11.0-forked3",
+  "version": "2.13.1-forked",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lhncbc/ngx-schema-form"
@@ -28,14 +28,14 @@
     "tslib": "^2.3.1"
   },
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/forms": "^17.0.0",
-    "@angular/platform-browser": "^17.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/platform-browser": "^19.0.0",
     "jexl": "^2.2.2",
-    "rxjs": "~7.4.0",
-    "typescript": "^5.2.2",
-    "z-schema": "^4.2.2",
-    "zone.js": "~0.14.2"
+    "rxjs": "~7.8.0",
+    "typescript": "^5.4.5",
+    "z-schema": "^6.0.0",
+    "zone.js": "~0.15.0"
   }
 }
