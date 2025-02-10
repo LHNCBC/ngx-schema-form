@@ -150,7 +150,7 @@ describe("FormComponent", () => {
         });
       });
 
-      it("should emit onChange events on field value change", () => {
+      it("should emit onChange events on field value change", (done) => {
         const predicate = By.directive(FormComponent);
         const form = fixture.debugElement.query(predicate).componentInstance;
         spyOn(form.onChange, "emit");
@@ -164,6 +164,7 @@ describe("FormComponent", () => {
 
           const value = { fieldA: "CHANGED" };
           expect(form.onChange.emit).toHaveBeenCalledWith({ value });
+          done();
         });
       });
     });
