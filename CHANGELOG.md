@@ -1,3 +1,23 @@
+# 2.13.1-forked (2025-02-03)
+
+- Upgrade to angular19.
+
+# 2.13.1 (2025-02-03)
+
+- Fix a bug in inserting new items in array properties (Ajay Kanduru).
+
+# 2.12.2 (2024-09-27)
+
+- Throw required error only if property is visible (Adithya Jayasankar)
+
+# 2.12.1 (2024-08-23)
+
+- Update dependencies & migrate to eslint (krishna217)
+
+# 2.12.0 (2023-11-08)
+
+- Upgrade to Angular 18 (ebrehault)
+
 # 2.11.0-forked3 (2024-11-14)
 - Fix inserting new items in array properties with custom widgets.
 
@@ -6,7 +26,7 @@
   specified in schema definition.
 
 # 2.11.0-forked1 (2024-06-15)
-- Restore ArrayProperty from 2.9.0-forked to address performance degradation 
+- Restore ArrayProperty from 2.9.0-forked to address performance degradation
   in 2.11.0-forked.
 
 # 2.11.0-forked (2024-05-14)

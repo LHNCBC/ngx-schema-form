@@ -7,7 +7,7 @@
 
 
 # Use the globally installed node and its modules
-LFORMS_NODE=node-v18
+LFORMS_NODE=node-v22
 # Set path
 PATH=~/${LFORMS_NODE}/bin:/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/etc
 
@@ -16,10 +16,6 @@ PATH=~/${LFORMS_NODE}/bin:/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/etc
 dir=`dirname ${BASH_SOURCE}`
 dir=`readlink -f ${dir}`
 
-if [[ -e "$dir/node_modules" ]]
-then
-  PATH=${dir}/node_modules/.bin:${PATH}
-fi
 umask 0022
 
 
