@@ -25,6 +25,7 @@ export class FormPropertyFactory {
    * @param value - Value of the field.
    * @param additionalProperty - A flag to indicate additionalProperty. Defaults
    *   to false.
+   * @return {FormProperty} - Created FormProperty instance.
    */
   createProperty(schema: ISchema, parent: PropertyGroup = null, propertyId: string = null, value?: any,
                  additionalProperty = false): FormProperty {
