@@ -56,8 +56,18 @@ export class FormPropertyFactory {
       newProperty = new AdditionalProperty(this.schemaValidatorFactory, this.validatorRegistry, this.expressionCompilerFactory,
         parent, path, this.logger, value);
     } else if (schema.$ref) {
-      const refSchema = this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref);
-      newProperty = this.createProperty(refSchema, parent, path, value);
+      const refSchema = JSON.parse(JSON.stringify(this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref)));
+
+      ['title', 'description'].forEach((key) => {
+        const val = schema[key] || refSchema[key];
+        if (val) {
+          refSchema[key] = val;
+        }
+      })
+      refSchema.widget = refSchema.widget || {id: 'hidden'};
+      Object.assign(refSchema.widget, schema.widget); // Override ref widget with the widget of referencing schema.
+      newProperty = this.createProperty(refSchema, parent, propertyId, value);
+      return newProperty;
     } else {
       const type: FieldType = this.isUnionType(schema.type) && this.isValidNullableUnionType(schema.type as TNullableFieldType)
           ? this.extractTypeFromNullableUnionType(schema.type as TNullableFieldType)
