@@ -1,3 +1,6 @@
+# 2.13.1-forked1 (2025-05-13)
+- Override schema.$ref.widget with schema.widget.
+
 # 2.13.1-forked (2025-02-03)
 
 - Upgrade to angular19.

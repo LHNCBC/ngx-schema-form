@@ -25,6 +25,7 @@ export class FormPropertyFactory {
    * @param value - Value of the field.
    * @param additionalProperty - A flag to indicate additionalProperty. Defaults
    *   to false.
+   * @return {FormProperty} - Created FormProperty instance.
    */
   createProperty(schema: ISchema, parent: PropertyGroup = null, propertyId: string = null, value?: any,
                  additionalProperty = false): FormProperty {
@@ -56,8 +57,17 @@ export class FormPropertyFactory {
       newProperty = new AdditionalProperty(this.schemaValidatorFactory, this.validatorRegistry, this.expressionCompilerFactory,
         parent, path, this.logger, value);
     } else if (schema.$ref) {
-      const refSchema = this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref);
-      newProperty = this.createProperty(refSchema, parent, path, value);
+      const refSchema = JSON.parse(JSON.stringify(this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref)));
+
+      ['title', 'description'].forEach((key) => {
+        if (schema[key]) {
+          refSchema[key] = schema[key];
+        }
+      })
+      refSchema.widget = refSchema.widget || {id: 'hidden'};
+      Object.assign(refSchema.widget, schema.widget); // Override ref widget with the widget of referencing schema.
+      newProperty = this.createProperty(refSchema, parent, propertyId, value);
+      return newProperty;
     } else {
       const type: FieldType = this.isUnionType(schema.type) && this.isValidNullableUnionType(schema.type as TNullableFieldType)
           ? this.extractTypeFromNullableUnionType(schema.type as TNullableFieldType)
