@@ -60,9 +60,8 @@ export class FormPropertyFactory {
       const refSchema = JSON.parse(JSON.stringify(this.schemaValidatorFactory.getSchema(parent.root.schema, schema.$ref)));
 
       ['title', 'description'].forEach((key) => {
-        const val = schema[key] || refSchema[key];
-        if (val) {
-          refSchema[key] = val;
+        if (schema[key]) {
+          refSchema[key] = schema[key];
         }
       })
       refSchema.widget = refSchema.widget || {id: 'hidden'};
