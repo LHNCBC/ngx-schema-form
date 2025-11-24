@@ -1,3 +1,6 @@
+# 2.13.1-forked2 (2025-11-24)
+- Override schema.$ref.visibleIf with schema.visibleIf.
+
 # 2.13.1-forked1 (2025-05-13)
 - Override schema.$ref.widget with schema.widget.
 
