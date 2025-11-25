@@ -65,7 +65,13 @@ export class FormPropertyFactory {
         }
       })
       refSchema.widget = refSchema.widget || {id: 'hidden'};
-      Object.assign(refSchema.widget, schema.widget); // Override ref widget with the widget of referencing schema.
+      ['widget', 'visibleIf'].forEach((f) => {
+        if(schema[f]) {
+          refSchema[f] = refSchema[f] || {};
+          Object.assign(refSchema[f], schema[f]); // Override ref fields with referencing schema.
+        }
+      });
+
       newProperty = this.createProperty(refSchema, parent, propertyId, value);
       return newProperty;
     } else {
