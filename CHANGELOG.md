@@ -1,3 +1,15 @@
+# 2.14.1-forked (2025-12-17)
+
+- Upgrade to angular20.
+
+# 2.14.1 (2025-11-20)
+
+- Fix a bug in inserting new items in array properties (Ajay Kanduru).
+
+# 2.14.0 (2025-11-17)
+
+- Upgrade to Angular 20 (krishna217)
+
 # 2.13.1-forked2 (2025-11-24)
 - Override schema.$ref.visibleIf with schema.visibleIf.
 
