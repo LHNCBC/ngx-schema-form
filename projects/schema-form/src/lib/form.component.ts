@@ -167,8 +167,8 @@ export class FormComponent implements OnChanges, ControlValueAccessor {
     }
 
     if (valueChanged) {
-      this.rootProperty._bindVisibility();
       this.cdr.detectChanges();
+      this.rootProperty._bindVisibility();
       this.modelReset.next({value: this.rootProperty.value});
     }
   }
