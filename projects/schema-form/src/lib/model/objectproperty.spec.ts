@@ -80,13 +80,26 @@ describe('ObjectProperty', () => {
 
   ['extension', 'modifierExtension'].forEach((field) => {
     it('Special handling for ' + field + ': should create same properties as in value', () => {
-      value = {FOO: 1};
+      const EXTENSION_OBJECT_SCHEMA: ISchema = {
+        type: "object",
+        properties: {
+          url: {type: "string"},
+          extension: {
+            type: "array",
+          },
+          valueString: {type: "string"},
+          valueAddress: {type: "object"},
+          valueAge: {type: "object"}
+        }
+      };
+
+      value = {url: 'xxx', valueString: 'yyyy'};
       objProperty = new ObjectProperty(
         A_FORM_PROPERTY_FACTORY,
         A_SCHEMA_VALIDATOR_FACTORY,
         A_VALIDATOR_REGISTRY,
         A_EXPRESSION_COMPILER_FACTORY,
-        THE_OBJECT_SCHEMA,
+        EXTENSION_OBJECT_SCHEMA,
         null,
         '/abc/' + field + '/*',
         A_LOGGER,
@@ -94,9 +107,9 @@ describe('ObjectProperty', () => {
       );
 
       // In extensions, should create the only ones in the value.
-      expect(objProperty.getProperty('FOO')).toBeDefined();
-      expect(objProperty.getProperty('BAR')).toBeUndefined();
-      expect(objProperty.getProperty('BAZ')).toBeUndefined();
+      expect(objProperty.getProperty('url')).toBeDefined();
+      expect(objProperty.getProperty('valueString')).toBeDefined();
+      expect(objProperty.getProperty('valueAddress')).toBeUndefined();
     });
   });
 

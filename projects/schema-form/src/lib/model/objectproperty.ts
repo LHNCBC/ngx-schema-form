@@ -21,7 +21,13 @@ export class ObjectProperty extends PropertyGroup {
               logger: LogService,
               value?: any) {
     super(schemaValidatorFactory, validatorRegistry, expressionCompilerFactory, schema, parent, path, logger);
-    if (path.match(/\/(extension|modifierExtension)\/\*$/)) {
+    const schemaProperties = (schema?.properties && Object.keys(schema.properties)) || [];
+    // Use a set of schema properties that identify the schema is of type Extension.
+    // Avoid primitive types to distinguish from other value[x] based schemas such as answerString, answerBoolean, etc.
+    const isExtension = ['url', 'extension', 'valueAddress', 'valueAge'].every((prop) => {
+      return schemaProperties.includes(prop);
+    });
+    if(isExtension) {
       // Special handling for extension schema.
       this.createPropertiesExtension(value);
     } else {

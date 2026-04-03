@@ -1,3 +1,7 @@
+# 2.14.1-forked1 (2026-02-10)
+- Fix mulitple calls to onValueChanges() in FormComponent.
+- Change criteria to identify FHIR schema extension in ObjectProperty.createProperty().
+
 # 2.14.1-forked (2025-12-17)
 
 - Upgrade to angular20.
